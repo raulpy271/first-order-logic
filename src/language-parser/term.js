@@ -6,13 +6,14 @@ import {
     recursiveParser,
     choice
 } from 'arcsecond';
+import tokens from './tokens.js';
 import {listSurroundedByParentheses} from './parser_tools.js';
 
-export const const_parser = sequenceOf([char('y'), digits]);
+export const const_parser = sequenceOf([char(tokens.CONSTANT_SYMBOL), digits]);
 
-export const var_parser = sequenceOf([char('x'), digits]);
+export const var_parser = sequenceOf([char(tokens.VARIABLE_SYMBOL), digits]);
 
-export const predicate_symbols = regex(/^[a-wzA-Z][a-zA-Z]*\d*/);
+export const predicate_symbols = regex(tokens.PREDICATE_SYMBOL_RE);
 
 export const predicate_parser = recursiveParser(() => choice(
     [
