@@ -46,4 +46,12 @@ test('recursive predicate parser', () => {
     expect(parsedEntireText(term_parser, 'p1(x12, x34)')).toBeTruthy();
     expect(parsedEntireText(term_parser, 'p1(x12, x34, q, y12, p4)')).toBeTruthy();
     expect(parsedEntireText(term_parser, 'p1  ( x12, x34, q, q(), p4 ) ')).toBeTruthy();
+    expect(parsedEntireText(term_parser, 'p1( x12, x34, q, q(y5), p4(x12, y2, P(T) ) ) ')).toBeTruthy();
+    expect(parsedEntireText(term_parser, 'p1( x12, x34, q, q(y5), p4(x12, y2, P(T, Q, Q() ) ) ) ')).toBeTruthy();
+    expect(parsedEntireText(term_parser, 'y12( x12, x34, q, q(y5), p4(x12, y2, P(T) ) ) ')).toBeFalsy();
+    expect(parsedEntireText(term_parser, 'p2( x12, x34, q, q(y5), p4(x12, y2, x(T) ) ) ')).toBeFalsy();
+    expect(parsedEntireText(term_parser, 'p2( x12, x34, q, q(y5), p4(x12, y2, P(T ) ) ')).toBeFalsy();
+    expect(parsedEntireText(term_parser, 'p2() x ')).toBeFalsy();
+    expect(parsedEntireText(term_parser, 'p2() - x ')).toBeFalsy();
+    expect(parsedEntireText(term_parser, 'y()')).toBeFalsy();
 });
