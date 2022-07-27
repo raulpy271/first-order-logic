@@ -37,3 +37,20 @@ test('Negation formula parser', () => {
     expect(parsedEntireText(formula_parser, '( ~ x12  )')).toBeFalsy()
     expect(parsedEntireText(formula_parser, ' x12  ')).toBeFalsy()
 });
+
+test('Conjunction formula parser', () => {
+    expect(parsedEntireText(formula_parser, '(y12 & y12)')).toBeTruthy()
+    expect(parsedEntireText(formula_parser, '(y12&y12)')).toBeTruthy()
+    expect(parsedEntireText(formula_parser, '(y12 & (~y3) )')).toBeTruthy()
+    expect(parsedEntireText(formula_parser, '( (P() & P(x12)) & (~y3) )')).toBeTruthy()
+    expect(parsedEntireText(formula_parser, '( (P() & P(x12))  (~y3) )')).toBeFalsy()
+    expect(parsedEntireText(formula_parser, '( x12 & P(x12) )')).toBeFalsy()
+    expect(parsedEntireText(formula_parser, '( y12 & y12 & y12 )')).toBeFalsy()
+});
+
+test('Disjunction formula parser', () => {
+    expect(parsedEntireText(formula_parser, '(y12 | y12)')).toBeTruthy()
+    expect(parsedEntireText(formula_parser, '(y12 | (~y3) )')).toBeTruthy()
+    expect(parsedEntireText(formula_parser, '( x12 | P(x12) )')).toBeFalsy()
+    expect(parsedEntireText(formula_parser, '( y12 | y12 | y12 )')).toBeFalsy()
+});
