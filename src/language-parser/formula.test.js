@@ -1,6 +1,6 @@
 
 import {var_parser} from './term.js';
-import {existencial_quantifier_parser, universal_quantifier_parser} from './formula.js';
+import {existencial_quantifier_parser, universal_quantifier_parser, formula_parser} from './formula.js';
 import {parsedEntireText} from './parser_tools.js';
 
 test('Existencial quantifier parser', () => {
@@ -23,4 +23,17 @@ test('Universal quantifier parser', () => {
     expect(parsedEntireText(universalParserOfVariables, '*y12')).toBeFalsy()
     expect(parsedEntireText(universalParserOfVariables, '*x12')).toBeFalsy()
     expect(parsedEntireText(universalParserOfVariables, '*x12 !x12')).toBeFalsy()
+});
+
+test('Negation formula parser', () => {
+    expect(parsedEntireText(formula_parser, '(~y12)')).toBeTruthy()
+    expect(parsedEntireText(formula_parser, '(~ y12)')).toBeTruthy()
+    expect(parsedEntireText(formula_parser, '( ~ y12 )')).toBeTruthy()
+    expect(parsedEntireText(formula_parser, '( ~ P(x12, y22) )')).toBeTruthy()
+    expect(parsedEntireText(formula_parser, '( ~ (~ y12 ) )')).toBeTruthy()
+    expect(parsedEntireText(formula_parser, '( ~ (~ (~ P) ) )')).toBeTruthy()
+    expect(parsedEntireText(formula_parser, '( ~ (~ (~~ P) ) )')).toBeFalsy()
+    expect(parsedEntireText(formula_parser, '( ~ (~ x12 ) )')).toBeFalsy()
+    expect(parsedEntireText(formula_parser, '( ~ x12  )')).toBeFalsy()
+    expect(parsedEntireText(formula_parser, ' x12  ')).toBeFalsy()
 });
