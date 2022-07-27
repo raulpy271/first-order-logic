@@ -14,6 +14,14 @@ test('Existencial quantifier parser', () => {
     expect(parsedEntireText(existencialParserOfVariables, '!x12 !x12')).toBeFalsy()
 });
 
+test('Existencial quantifier with formula parser', () => {
+    expect(parsedEntireText(formula_parser, '!x12 y12')).toBeTruthy()
+    expect(parsedEntireText(formula_parser, '!x12 (~P(x12))')).toBeTruthy()
+    expect(parsedEntireText(formula_parser, '!x12 (P(x12) | y12)')).toBeTruthy()
+    expect(parsedEntireText(formula_parser, '!x12 ~P(x12) ')).toBeFalsy()
+    expect(parsedEntireText(formula_parser, '!x12 x12 ')).toBeFalsy()
+});
+
 test('Universal quantifier parser', () => {
     let universalParserOfVariables = universal_quantifier_parser(var_parser);
     expect(parsedEntireText(universalParserOfVariables, '*x12 x21')).toBeTruthy()
@@ -24,6 +32,15 @@ test('Universal quantifier parser', () => {
     expect(parsedEntireText(universalParserOfVariables, '*x12')).toBeFalsy()
     expect(parsedEntireText(universalParserOfVariables, '*x12 !x12')).toBeFalsy()
 });
+
+test('Universal quantifier with formula parser', () => {
+    expect(parsedEntireText(formula_parser, '*x12 y12')).toBeTruthy()
+    expect(parsedEntireText(formula_parser, '*x12 (~P(x12))')).toBeTruthy()
+    expect(parsedEntireText(formula_parser, '*x12 (P(x12) | y12)')).toBeTruthy()
+    expect(parsedEntireText(formula_parser, '*x12 ~P(x12) ')).toBeFalsy()
+    expect(parsedEntireText(formula_parser, '*x12 x12 ')).toBeFalsy()
+});
+
 
 test('Negation formula parser', () => {
     expect(parsedEntireText(formula_parser, '(~y12)')).toBeTruthy()

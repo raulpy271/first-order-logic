@@ -38,5 +38,7 @@ export const formula_parser = choice([
     and_formula_parser,
     or_formula_parser,
     negation_formula_parser,
+    recursiveParser(() => universal_quantifier_parser (formula_parser)),
+    recursiveParser(() => existencial_quantifier_parser (formula_parser)),
     atomic_formula_parser
 ]);
