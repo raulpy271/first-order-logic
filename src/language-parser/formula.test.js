@@ -78,3 +78,12 @@ test('Implication formula parser', () => {
     expect(parsedEntireText(formula_parser, '(y12 => ')).toBeFalsy()
     expect(parsedEntireText(formula_parser, '2 => 1')).toBeFalsy()
 });
+
+test('All operators in formula', () => {
+    expect(parsedEntireText(formula_parser, '(y12=>(y12))')).toBeTruthy()
+    expect(parsedEntireText(formula_parser, '(y12 => ( y12 ) )')).toBeTruthy()
+    expect(parsedEntireText(formula_parser, '   ( y12 => ( y12 ) ) ')).toBeTruthy()
+    expect(parsedEntireText(formula_parser, '  !x12 (y12 | P(x12) ) ')).toBeTruthy()
+    expect(parsedEntireText(formula_parser, ' (  P(x12) ) ')).toBeTruthy()
+    expect(parsedEntireText(formula_parser, '   P(x12)  ')).toBeTruthy()
+});

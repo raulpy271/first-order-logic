@@ -2,12 +2,12 @@
 import {choice, char, str, whitespace, sequenceOf, optionalWhitespace, recursiveParser} from 'arcsecond';
 import tokens from './tokens.js';
 import { predicate_parser, const_parser, var_parser} from "./term.js";
-import {surroundedByParentheses} from "./parser_tools";
+import {surroundedByParentheses, optionalSurroundedByParentheses, surroundedBy} from "./parser_tools";
 
 
 const quantifier = quantifier_symbol_parser => (
     formula_parser => (
-        sequenceOf([quantifier_symbol_parser, var_parser, whitespace, formula_parser])
+        sequenceOf([optionalWhitespace, quantifier_symbol_parser, var_parser, whitespace, formula_parser, optionalWhitespace])
     )
 );
 
@@ -23,7 +23,9 @@ export const existencial_quantifier_parser = quantifier (char(tokens.EXISTENCIAL
 
 export const universal_quantifier_parser = quantifier (char(tokens.UNIVERSAL_QUANTIFIER));
 
-export const atomic_formula_parser = choice([predicate_parser, const_parser]);
+export const atomic_formula_parser = optionalSurroundedByParentheses(
+    surroundedBy (optionalWhitespace) (choice([predicate_parser, const_parser]))
+);
 
 export const negation_formula_parser = recursiveParser(() => (
     surroundedByParentheses(sequenceOf([
