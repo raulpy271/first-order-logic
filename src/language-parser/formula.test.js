@@ -71,3 +71,10 @@ test('Disjunction formula parser', () => {
     expect(parsedEntireText(formula_parser, '( x12 | P(x12) )')).toBeFalsy()
     expect(parsedEntireText(formula_parser, '( y12 | y12 | y12 )')).toBeFalsy()
 });
+
+test('Implication formula parser', () => {
+    expect(parsedEntireText(formula_parser, '(y12=>y12)')).toBeTruthy()
+    expect(parsedEntireText(formula_parser, '(y12 => *x12 P(x12))')).toBeTruthy()
+    expect(parsedEntireText(formula_parser, '(y12 => ')).toBeFalsy()
+    expect(parsedEntireText(formula_parser, '2 => 1')).toBeFalsy()
+});

@@ -1,5 +1,5 @@
 
-import {choice, char, whitespace, sequenceOf, optionalWhitespace, recursiveParser} from 'arcsecond';
+import {choice, char, str, whitespace, sequenceOf, optionalWhitespace, recursiveParser} from 'arcsecond';
 import tokens from './tokens.js';
 import { predicate_parser, const_parser, var_parser} from "./term.js";
 import {surroundedByParentheses} from "./parser_tools";
@@ -33,11 +33,13 @@ export const negation_formula_parser = recursiveParser(() => (
 
 export const and_formula_parser = binary_formula_parser(char(tokens.AND_SYMBOL));
 export const or_formula_parser = binary_formula_parser(char(tokens.OR_SYMBOL));
+export const implication_formula_parser = binary_formula_parser(str(tokens.IMPLICATION_SYMBOL));
 
 export const formula_parser = choice([
     and_formula_parser,
     or_formula_parser,
     negation_formula_parser,
+    implication_formula_parser,
     recursiveParser(() => universal_quantifier_parser (formula_parser)),
     recursiveParser(() => existencial_quantifier_parser (formula_parser)),
     atomic_formula_parser
