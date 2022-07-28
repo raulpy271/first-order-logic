@@ -86,4 +86,5 @@ test('All operators in formula', () => {
     expect(parsedEntireText(formula_parser, '  !x12 (y12 | P(x12) ) ')).toBeTruthy()
     expect(parsedEntireText(formula_parser, ' (  P(x12) ) ')).toBeTruthy()
     expect(parsedEntireText(formula_parser, '   P(x12)  ')).toBeTruthy()
+    expect(parsedEntireText(formula_parser, '   (P(x12) | (y3 => (Q() & y12 ) ) ) ')).toBeTruthy()
 });
