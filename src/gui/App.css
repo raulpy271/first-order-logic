@@ -2,3 +2,16 @@
 .App {
   text-align: center;
 }
+
+.formulaExamples {
+  position: relative;
+  left: 30%;
+  margin-top: 40px;
+  text-align: left;
+}
+
+.formulaSyntax {
+  font-family: monospace;
+  background-color: rgba(128, 128, 128, 0.2);
+
+}
