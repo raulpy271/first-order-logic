@@ -52,10 +52,10 @@ class App extends React.Component {
       let formula = lines_not_empty[0];
       let result = formula_parser.run(formula);
       if (result.isError) {
-        this.setOutput(result.error);
+        this.setOutput(result.error, true);
       } else {
         if (result.index < formula.length) {
-          this.setOutput(`ParseError (position ${result.index}): got unexpected string "${formula.slice(result.index)}".`)
+          this.setOutput(`ParseError (position ${result.index}): got unexpected string "${formula.slice(result.index)}".`, true)
         } else {
           if (!this.use_custom_predicate_symbols) {
             this.setOutput('Success!');
@@ -66,19 +66,24 @@ class App extends React.Component {
             if (formulaUseCustomSymbols) {
               this.setOutput('Success!');
             } else {
-              this.setOutput(`Got unexpected predicate symbol "${getPredicateSymbolsNotInExpectedArray(result.result,  this.array_of_predicate_symbols)}".`)
+              this.setOutput(`Got unexpected predicate symbol "${getPredicateSymbolsNotInExpectedArray(result.result,  this.array_of_predicate_symbols)}".`, true)
             }
 
           }
         }
       }
     } else {
-      this.setOutput('No content to parse.')
+      this.setOutput('No content to parse.', true)
     }
   }
 
-  setOutput(text) {
+  setOutput(text, error) {
     let output_tag = document.getElementById('formulaOutput');
+    if (error) {
+      output_tag.classList = ["outputError"]
+    } else {
+      output_tag.classList = ["outputSuccess"]
+    }
     output_tag.innerHTML = text;
   }
 
@@ -100,7 +105,7 @@ class App extends React.Component {
             </div>
             <input type="submit" value="Check formula" onClick={() => this.checkFormulaBtn()}></input><br/>
           </div>
-          <p id="formulaOutput">Parse result: <i>waiting input...</i></p>
+          <span id="formulaOutput">Parse result: <i>waiting input...</i></span>
         </div>
         <div className="formulaExamples">
           See some examples:
