@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/first-order-logic/static/css/main.f546ef08.css",
-    "main.js": "/first-order-logic/static/js/main.43ace135.js",
+    "main.css": "/first-order-logic/static/css/main.c02e4387.css",
+    "main.js": "/first-order-logic/static/js/main.3474e882.js",
     "index.html": "/first-order-logic/index.html",
-    "main.f546ef08.css.map": "/first-order-logic/static/css/main.f546ef08.css.map",
-    "main.43ace135.js.map": "/first-order-logic/static/js/main.43ace135.js.map"
+    "main.c02e4387.css.map": "/first-order-logic/static/css/main.c02e4387.css.map",
+    "main.3474e882.js.map": "/first-order-logic/static/js/main.3474e882.js.map"
   },
   "entrypoints": [
-    "static/css/main.f546ef08.css",
-    "static/js/main.43ace135.js"
+    "static/css/main.c02e4387.css",
+    "static/js/main.3474e882.js"
   ]
 }
