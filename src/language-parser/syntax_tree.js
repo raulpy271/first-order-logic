@@ -6,6 +6,8 @@ export const nodeTypes = {
     "OR_FORMULA":"OR_FORMULA",
     "AND_FORMULA":"AND_FORMULA",
     "IMPLICATION_FORMULA":"IMPLICATION_FORMULA",
+    "UNIVERSAL_QUANTIFIER":"UNIVERSAL_QUANTIFIER",
+    "EXISTENCIAL_QUANTIFIER":"EXISTENCIAL_QUANTIFIER",
 }
 
 export const tag_result = type => value => {
@@ -16,6 +18,13 @@ export const tag_result_binary_operator = type => values => {
     return {
         type: type,
         value: [values[0], values[4]]
+    }
+};
+
+export const tag_result_quantifier_operator = type => values => {
+    return {
+        type: type,
+        value: [values[2], values[4]]
     }
 };
 

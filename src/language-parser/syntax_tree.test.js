@@ -82,3 +82,42 @@ test('Implication syntax tree parser', () => {
         ]
     });
 });
+
+test('Universal quantifier syntax tree parser', () => {
+    let result = formula_parser.run('*x1 P(x1)');
+    expect(result.result).toStrictEqual({
+        type: nodeTypes.UNIVERSAL_QUANTIFIER, 
+        value:[
+            {type: nodeTypes.VARIABLE, value: "x1"}, 
+            {type: nodeTypes.PREDICATE_SYMBOL, value: [
+                {type: nodeTypes.PREDICATE_SYMBOL, value: "P"}, 
+                {type: nodeTypes.VARIABLE, value: "x1"} 
+            ]},
+        ]
+    });
+    result = formula_parser.run('*x1 (P(x1) => y1)');
+    expect(result.result).toStrictEqual({
+        type: nodeTypes.UNIVERSAL_QUANTIFIER, 
+        value:[
+            {type: nodeTypes.VARIABLE, value: "x1"}, 
+            {type: nodeTypes.IMPLICATION_FORMULA, value: [
+                {type: nodeTypes.PREDICATE_SYMBOL, value:[
+                    {type: nodeTypes.PREDICATE_SYMBOL, value: "P"}, 
+                    {type: nodeTypes.VARIABLE, value: "x1"} 
+                ]},
+                {type: nodeTypes.CONSTANT, value: "y1"} 
+            ]},
+        ]
+    });
+});
+
+test('Existencial quantifier syntax tree parser', () => {
+    let result = formula_parser.run('!x1 y12');
+    expect(result.result).toStrictEqual({
+        type: nodeTypes.EXISTENCIAL_QUANTIFIER, 
+        value:[
+            {type: nodeTypes.VARIABLE, value: "x1"}, 
+            {type: nodeTypes.CONSTANT, value: "y12"}
+        ]
+    });
+});

@@ -3,12 +3,14 @@ import {choice, char, str, whitespace, sequenceOf, optionalWhitespace, recursive
 import tokens from './tokens.js';
 import {predicate_parser, const_parser, var_parser} from "./term.js";
 import {surroundedByParentheses, optionalSurroundedByParentheses, surroundedBy} from "./parser_tools";
-import {nodeTypes, tag_result_binary_operator } from './syntax_tree.js';
+import {nodeTypes, tag_result_binary_operator, tag_result_quantifier_operator} from './syntax_tree.js';
 
 
-const quantifier = quantifier_symbol_parser => (
+const quantifier = (quantifier_symbol_parser, quantifier_nodeType) => (
     formula_parser => (
-        sequenceOf([optionalWhitespace, quantifier_symbol_parser, var_parser, whitespace, formula_parser, optionalWhitespace])
+        sequenceOf(
+            [optionalWhitespace, quantifier_symbol_parser, var_parser, whitespace, formula_parser, optionalWhitespace]
+        ).map(tag_result_quantifier_operator(quantifier_nodeType))
     )
 );
 
@@ -20,9 +22,9 @@ const binary_formula_parser = binary_operator_parser => (
     ))
 );
 
-export const existencial_quantifier_parser = quantifier (char(tokens.EXISTENCIAL_QUANTIFIER));
+export const existencial_quantifier_parser = quantifier (char(tokens.EXISTENCIAL_QUANTIFIER), nodeTypes.EXISTENCIAL_QUANTIFIER);
 
-export const universal_quantifier_parser = quantifier (char(tokens.UNIVERSAL_QUANTIFIER));
+export const universal_quantifier_parser = quantifier (char(tokens.UNIVERSAL_QUANTIFIER), nodeTypes.UNIVERSAL_QUANTIFIER);
 
 export const atomic_formula_parser = optionalSurroundedByParentheses(
     surroundedBy (optionalWhitespace) (choice([predicate_parser, const_parser]))
