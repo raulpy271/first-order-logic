@@ -1,5 +1,4 @@
 
-
 import {const_parser, var_parser, predicate_symbols, term_parser, predicate_parser} from './term.js';
 import {nodeTypes} from './syntax_tree.js';
 import { formula_parser } from './formula.js';
