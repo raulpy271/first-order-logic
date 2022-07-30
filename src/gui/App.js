@@ -31,6 +31,16 @@ class App extends React.Component {
     console.log(`Setting array of custom predicates: ${JSON.stringify(this.array_of_predicate_symbols)}`);
   }
 
+  arrayOfCustomSymbolsAreValid() {
+    let startWithXorY = /^(x|y)/;
+    for (let customSymbol of this.array_of_predicate_symbols) {
+      if (customSymbol.match(startWithXorY)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   selectPredicateSymbols() {
     let predicateSymbolsCustomTag = document.getElementById('predicateSymbolsCustom');
     let textarea = document.getElementById('customPredicateSymbolsInput');
@@ -61,14 +71,17 @@ class App extends React.Component {
             this.setOutput('Success!');
           } else {
             this.setArrayOfCustomSymbols();
-            console.log(`all predicates in formula: ${getAllPredicateSymbols(result.result)}`)
-            let formulaUseCustomSymbols = allPredicateSymbolsInTreeAreInThisArray(result.result, this.array_of_predicate_symbols);
-            if (formulaUseCustomSymbols) {
-              this.setOutput('Success!');
+            if (this.arrayOfCustomSymbolsAreValid()) {
+              console.log(`all predicates in formula: ${getAllPredicateSymbols(result.result)}`)
+              let formulaUseCustomSymbols = allPredicateSymbolsInTreeAreInThisArray(result.result, this.array_of_predicate_symbols);
+              if (formulaUseCustomSymbols) {
+                this.setOutput('Success!');
+              } else {
+                this.setOutput(`Got unexpected predicate symbol "${getPredicateSymbolsNotInExpectedArray(result.result,  this.array_of_predicate_symbols)}".`, true)
+              }
             } else {
-              this.setOutput(`Got unexpected predicate symbol "${getPredicateSymbolsNotInExpectedArray(result.result,  this.array_of_predicate_symbols)}".`, true)
+              this.setOutput('Custom predicate symbols can\'t start with <span class="formulaSyntax">x</span> or <span class="formulaSyntax">y</span>', true)
             }
-
           }
         }
       }
