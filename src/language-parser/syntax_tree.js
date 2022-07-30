@@ -3,10 +3,20 @@ export const nodeTypes = {
     "VARIABLE":"VARIABLE",
     "CONSTANT":"CONSTANT",
     "PREDICATE_SYMBOL":"PREDICATE_SYMBOL",
+    "OR_FORMULA":"OR_FORMULA",
+    "AND_FORMULA":"AND_FORMULA",
+    "IMPLICATION_FORMULA":"IMPLICATION_FORMULA",
 }
 
 export const tag_result = type => value => {
     return {type, value};
+};
+
+export const tag_result_binary_operator = type => values => {
+    return {
+        type: type,
+        value: [values[0], values[4]]
+    }
 };
 
 export const map_const = values => {

@@ -2,6 +2,7 @@
 
 import {const_parser, var_parser, predicate_symbols, term_parser, predicate_parser} from './term.js';
 import {nodeTypes} from './syntax_tree.js';
+import { formula_parser } from './formula.js';
 
 test('constant syntax tree parser', () => {
     let result = const_parser.run('y12');
@@ -38,3 +39,46 @@ test('predicate symbol syntax tree parser', () => {
     );
 });
 
+test('Disjunction syntax tree parser', () => {
+    let result = formula_parser.run('(y12 | y12)');
+    expect(result.result).toStrictEqual({
+        type: nodeTypes.OR_FORMULA, 
+        value:[
+            {type: nodeTypes.CONSTANT, value: "y12"}, 
+            {type: nodeTypes.CONSTANT, value: "y12"},
+        ]
+    });
+    result = formula_parser.run('( (y12 | P) | y12)');
+    expect(result.result).toStrictEqual({
+        type: nodeTypes.OR_FORMULA, 
+        value:[
+            {type: nodeTypes.OR_FORMULA, value: [
+                {type: nodeTypes.CONSTANT, value: "y12"},
+                {type: nodeTypes.PREDICATE_SYMBOL, value: "P"}
+            ]}, 
+            {type: nodeTypes.CONSTANT, value: "y12"},
+        ]
+    });
+});
+
+test('Conjunction syntax tree parser', () => {
+    let result = formula_parser.run('(y12 & y12)');
+    expect(result.result).toStrictEqual({
+        type: nodeTypes.AND_FORMULA, 
+        value:[
+            {type: nodeTypes.CONSTANT, value: "y12"}, 
+            {type: nodeTypes.CONSTANT, value: "y12"},
+        ]
+    });
+});
+
+test('Implication syntax tree parser', () => {
+    let result = formula_parser.run('(y12 => y12)');
+    expect(result.result).toStrictEqual({
+        type: nodeTypes.IMPLICATION_FORMULA, 
+        value:[
+            {type: nodeTypes.CONSTANT, value: "y12"}, 
+            {type: nodeTypes.CONSTANT, value: "y12"},
+        ]
+    });
+});

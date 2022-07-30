@@ -1,8 +1,9 @@
 
 import {choice, char, str, whitespace, sequenceOf, optionalWhitespace, recursiveParser} from 'arcsecond';
 import tokens from './tokens.js';
-import { predicate_parser, const_parser, var_parser} from "./term.js";
+import {predicate_parser, const_parser, var_parser} from "./term.js";
 import {surroundedByParentheses, optionalSurroundedByParentheses, surroundedBy} from "./parser_tools";
+import {nodeTypes, tag_result_binary_operator } from './syntax_tree.js';
 
 
 const quantifier = quantifier_symbol_parser => (
@@ -33,9 +34,15 @@ export const negation_formula_parser = recursiveParser(() => (
     ]))
 )); 
 
-export const and_formula_parser = binary_formula_parser(char(tokens.AND_SYMBOL));
-export const or_formula_parser = binary_formula_parser(char(tokens.OR_SYMBOL));
-export const implication_formula_parser = binary_formula_parser(str(tokens.IMPLICATION_SYMBOL));
+export const and_formula_parser = binary_formula_parser(char(tokens.AND_SYMBOL)).map(
+    tag_result_binary_operator(nodeTypes.AND_FORMULA)
+);
+export const or_formula_parser = binary_formula_parser(char(tokens.OR_SYMBOL)).map(
+    tag_result_binary_operator(nodeTypes.OR_FORMULA)
+);
+export const implication_formula_parser = binary_formula_parser(str(tokens.IMPLICATION_SYMBOL)).map(
+    tag_result_binary_operator(nodeTypes.IMPLICATION_FORMULA)
+);
 
 export const formula_parser = choice([
     and_formula_parser,
