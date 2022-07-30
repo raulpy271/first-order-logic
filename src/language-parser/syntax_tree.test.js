@@ -71,6 +71,20 @@ test('Conjunction syntax tree parser', () => {
     });
 });
 
+test('Negation syntax tree parser', () => {
+    let result = formula_parser.run(' ( ~ (y12 & y12)) ');
+    expect(result.result).toStrictEqual({
+        type: nodeTypes.NOT_FORMULA,
+        value: {
+            type: nodeTypes.AND_FORMULA, 
+            value:[
+                {type: nodeTypes.CONSTANT, value: "y12"}, 
+                {type: nodeTypes.CONSTANT, value: "y12"},
+            ]
+        }
+    });
+});
+
 test('Implication syntax tree parser', () => {
     let result = formula_parser.run('(y12 => y12)');
     expect(result.result).toStrictEqual({

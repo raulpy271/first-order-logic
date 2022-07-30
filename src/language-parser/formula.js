@@ -3,7 +3,7 @@ import {choice, char, str, whitespace, sequenceOf, optionalWhitespace, recursive
 import tokens from './tokens.js';
 import {predicate_parser, const_parser, var_parser} from "./term.js";
 import {surroundedByParentheses, optionalSurroundedByParentheses, surroundedBy} from "./parser_tools";
-import {nodeTypes, tag_result_binary_operator, tag_result_quantifier_operator} from './syntax_tree.js';
+import {nodeTypes, tag_negation_operator, tag_result_binary_operator, tag_result_quantifier_operator} from './syntax_tree.js';
 
 
 const quantifier = (quantifier_symbol_parser, quantifier_nodeType) => (
@@ -33,7 +33,7 @@ export const atomic_formula_parser = optionalSurroundedByParentheses(
 export const negation_formula_parser = recursiveParser(() => (
     surroundedByParentheses(sequenceOf([
         char(tokens.NOT_SYMBOL), optionalWhitespace, formula_parser
-    ]))
+    ])).map(tag_negation_operator)
 )); 
 
 export const and_formula_parser = binary_formula_parser(char(tokens.AND_SYMBOL)).map(

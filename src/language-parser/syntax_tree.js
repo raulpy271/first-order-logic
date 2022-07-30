@@ -5,6 +5,7 @@ export const nodeTypes = {
     "PREDICATE_SYMBOL":"PREDICATE_SYMBOL",
     "OR_FORMULA":"OR_FORMULA",
     "AND_FORMULA":"AND_FORMULA",
+    "NOT_FORMULA":"NOT_FORMULA",
     "IMPLICATION_FORMULA":"IMPLICATION_FORMULA",
     "UNIVERSAL_QUANTIFIER":"UNIVERSAL_QUANTIFIER",
     "EXISTENCIAL_QUANTIFIER":"EXISTENCIAL_QUANTIFIER",
@@ -18,6 +19,13 @@ export const tag_result_binary_operator = type => values => {
     return {
         type: type,
         value: [values[0], values[4]]
+    }
+};
+
+export const tag_negation_operator = values => {
+    return {
+        type: nodeTypes.NOT_FORMULA,
+        value: values[2]
     }
 };
 
