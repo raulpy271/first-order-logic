@@ -21,6 +21,9 @@ export function getAllPredicateSymbols(tree) {
     if ([nodeTypes.UNIVERSAL_QUANTIFIER, nodeTypes.EXISTENCIAL_QUANTIFIER].includes(tree.type)) {
         symbols = symbols.concat(getAllPredicateSymbols(tree.value[1]));
     }
+    if (nodeTypes.NOT_FORMULA === tree.type) {
+        symbols = symbols.concat(getAllPredicateSymbols(tree.value));
+    }
     return symbols;
 }
 

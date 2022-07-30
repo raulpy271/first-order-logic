@@ -24,6 +24,13 @@ test('getAllPredicateSymbols of a formula with binary operators', () => {
     expect(getAllPredicateSymbols(tree)).toStrictEqual(["Q", "S"]);
 });
 
+test('getAllPredicateSymbols of a formula with negation operator', () => {
+    let tree = formula_parser.run('(~(y12 | Q))').result;
+    expect(getAllPredicateSymbols(tree)).toStrictEqual(["Q"]);
+    tree = formula_parser.run('( ~ ( Q | (~ S) ) )').result;
+    expect(getAllPredicateSymbols(tree)).toStrictEqual(["Q", "S"]);
+});
+
 test('getAllPredicateSymbols of a formula with binary operators and quantifiers', () => {
     let tree = formula_parser.run('!x12 P(x12)').result;
     expect(getAllPredicateSymbols(tree)).toStrictEqual(["P"]);
