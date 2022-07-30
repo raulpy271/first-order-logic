@@ -1,7 +1,7 @@
 
 import {nodeTypes} from './syntax_tree.js';
 import {formula_parser} from './formula.js';
-import {getAllPredicateSymbols} from './tree_analyzer.js';
+import {getAllPredicateSymbols, allPredicateSymbolsInTreeAreInThisArray, getPredicateSymbolsNotInExpectedArray} from './tree_analyzer.js';
 
 test('getAllPredicateSymbols of a formula with ony predicate symbols', () => {
     let tree = {type: nodeTypes.PREDICATE_SYMBOL, value: "Q"};
@@ -31,5 +31,14 @@ test('getAllPredicateSymbols of a formula with binary operators and quantifiers'
     expect(getAllPredicateSymbols(tree)).toStrictEqual([]);
     tree = formula_parser.run('*x12 !x14 (P(x12) => Q(x14, S))').result;
     expect(getAllPredicateSymbols(tree)).toStrictEqual(["P", "Q", "S"]);
+});
+
+test('get predicate symbol not included in array', () => {
+    let tree = formula_parser.run('!x12 P(x12)').result;
+    expect(allPredicateSymbolsInTreeAreInThisArray(tree, ["P", "Q"])).toBeTruthy();
+    expect(getPredicateSymbolsNotInExpectedArray(tree, ["P", "Q"])).toBeFalsy();
+    tree = formula_parser.run('!x12 P(x12, S, Q)').result;
+    expect(allPredicateSymbolsInTreeAreInThisArray(tree, ["P", "Q"])).toBeFalsy();
+    expect(getPredicateSymbolsNotInExpectedArray(tree, ["P", "Q"])).toBe("S");
 });
 

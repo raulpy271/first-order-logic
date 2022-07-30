@@ -23,3 +23,14 @@ export function getAllPredicateSymbols(tree) {
     }
     return symbols;
 }
+
+export function allPredicateSymbolsInTreeAreInThisArray(tree, expectedSymbols) {
+    let symbolsInFormula = getAllPredicateSymbols(tree);
+    return symbolsInFormula.every(symbol => expectedSymbols.includes(symbol));
+}
+
+export function getPredicateSymbolsNotInExpectedArray(tree, expectedSymbols) {
+    let symbolsInFormula = getAllPredicateSymbols(tree);
+    let predicateNotIncluded = symbolsInFormula.find(symbol => !expectedSymbols.includes(symbol));
+    return predicateNotIncluded;
+}
